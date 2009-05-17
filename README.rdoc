@@ -1,0 +1,59 @@
+=Videoclip
+
+Videoclip is a video transcoding processor for Thoughbot's Paperclip plugin.
+It allows you to easily transcode/resize video using FFMPEG.
+
+*WARNING*: This is still experimental. Use at your own risk!
+
+For the time being, transcoding is done before the object is saved.
+If there's an error, you'll get a warning similar to if the object failed validation.
+Obviously, it would be nicer if transcoding were passed off to a queue instead.
+Stay tuned.
+
+==Installation
+
+  script/plugin install git://github.com/thoughtbot/paperclip.git
+  script/plugin install git://github.com/iamsolarpowered/videoclip.git
+
+You'll also need FFMPEG installed, which isn't always straight-forward.
+Sometimes it's downright frustrating. FFMPEG needs to be compiled with any codecs you
+want to use (many of which aren't open source).
+
+If you're using Ubuntu, this link should help https://wiki.ubuntu.com/ffmpeg .
+
+==Usage
+
+Usage is similar to image styles in Paperclip:
+
+  class Episode < ActiveRecord::Base
+    has_attached_file :video,
+      :styles => {
+        :mov => {:geometry => '320x240', :format => 'mov'},
+        :avi => {:geometry => '320x240', :format => 'avi'}
+      },
+      :processors => [:transcode]
+  end
+
+The <tt>:processors => [:transcode]</tt> bit is crucial.
+
+<tt>:format</tt> should be the extension of the output file. FFMPEG will attempt to
+use some sensible defaults based on the extension.
+
+You can also pass in <tt>:options => 'FFMPEG OPTIONS'</tt> if you like. See
+http://ffmpeg.mplayerhq.hu/ffmpeg-doc.html#SEC8 for details. For example:
+
+  has_attached_file :video,
+    :styles => {
+      :low_quality => {:format => 'flv', :options => '-vb 300k'},
+      :high_quality => {:format => 'flv', :options => '-vb 800k'}
+    },
+    :processors => [:transcode]
+
+==Go Easy
+
+This is my first publicly released plugin. I hope you find it helpful!
+
+==License
+
+Released under the MIT license. Copyright (c) 2009 Ben Shymkiw.
+A copy of the MIT license can be found in the MIT-LICENSE file.
