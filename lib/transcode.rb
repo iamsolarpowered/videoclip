@@ -8,13 +8,10 @@ module Paperclip
       @options            = options
       @current_format     = File.extname(@file.path)
       @basename           = File.basename(@file.path, @current_format)
-#      @dst                = dst
     end
 
     def make
       dst = Tempfile.new([@basename, @format].compact.join("."))
-      puts '***********************'
-      puts cmd(dst)
       begin
         success = system cmd(dst)
       rescue
@@ -33,10 +30,6 @@ module Paperclip
 
       a.join(' ')
     end
-
-#    def dst
-#      Tempfile.new([@basename, @format].compact.join("."))
-#    end
 
     def ffmpeg_options
       a = []

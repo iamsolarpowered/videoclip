@@ -68,7 +68,7 @@ compression. (Beware, I haven't actually tested this. It might not come out well
 
 * 2-pass encoding isn't supported (yet).
 
-* I highly doubt it'll work on Windows. If you've got a Windows box and a bit of patience, please submit a patch.
+* I highly doubt it'll work on Windows. If you've got a Windows box and a bit of patience, let me know.
 
 ==License
 
