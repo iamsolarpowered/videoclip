@@ -4,7 +4,7 @@ module Paperclip
 
     def initialize file, options = {}, attachment = nil
       @file               = file
-      @format             = options.delete(:format)
+      @format             = options[:format]
       @options            = options
       @current_format     = File.extname(@file.path)
       @basename           = File.basename(@file.path, @current_format)
