@@ -3,13 +3,6 @@
 Videoclip is a video transcoding processor for Thoughbot's Paperclip plugin.
 It allows you to easily transcode/resize video using FFMPEG.
 
-*WARNING*: This is still experimental. Use at your own risk!
-
-For the time being, transcoding is done before the object is saved.
-If there's an error, you'll get a warning similar to if the object failed validation.
-Obviously, it would be nicer if transcoding were passed off to a queue instead.
-Stay tuned.
-
 ==Installation
 
   script/plugin install git://github.com/thoughtbot/paperclip.git
@@ -36,24 +29,53 @@ Usage is similar to image styles in Paperclip:
 
 The <tt>:processors => [:transcode]</tt> bit is crucial.
 
-<tt>:format</tt> should be the extension of the output file. FFMPEG will attempt to
-use some sensible defaults based on the extension.
+<tt>:format</tt> is the only required parameter, and should be the extension of the
+output file. FFMPEG will attempt to use some sensible defaults based on the extension.
 
-You can also pass in <tt>:options => 'FFMPEG OPTIONS'</tt> if you like. See
-http://ffmpeg.mplayerhq.hu/ffmpeg-doc.html#SEC8 for details. For example:
+See the wiki for a full list of options, or check out the +ffmpeg_options+ method
+in lib/transcode.rb.
+
+You can also pass in additional arguments with <tt>:options => 'FFMPEG OPTIONS'</tt>
+if you like. See http://ffmpeg.mplayerhq.hu/ffmpeg-doc.html#SEC8 for details.
+For example:
 
   has_attached_file :video,
     :styles => {
-      :low_quality => {:format => 'flv', :options => '-vb 300k'},
-      :high_quality => {:format => 'flv', :options => '-vb 800k'}
+      :default_channel => {:format => 'flv', :options => '-tvstd NTSC'},
+      :alternate_channel => {:format => 'flv', :options => '-vc 2 -tvstd NTSC'}
     },
     :processors => [:transcode]
 
-==Go Easy
+How about another example? This will convert the uploaded video to a .mov with h.264
+compression. (Beware, I haven't actually tested this. It might not come out well.)
 
-This is my first publicly released plugin. I hope you find it helpful!
+  has_attached_file :video,
+    :styles => {
+      :mov => {
+        :format         => 'mov',
+        :video_codec    => 'libx264',
+        :audio_codec    => 'libmp3lame',
+        :bitrate        => '500k',
+        :video_bitrate  => '408k',
+        :audio_bitrate  => '92k'
+      }
+    },
+    :processors => [:transcode]
+
+==Limiations
+
+* For the time being, transcoding is done before the object is saved. If there's an error, you'll get a warning similar to what you'd see if the object failed validation. Obviously, it would be nicer if transcoding were passed off to a queue instead. Stay tuned.
+
+* 2-pass encoding isn't supported (yet).
+
+* I highly doubt it'll work on Windows. If you've got a Windows box and a bit of patience, please submit a patch.
 
 ==License
 
 Released under the MIT license. Copyright (c) 2009 Ben Shymkiw.
 A copy of the MIT license can be found in the MIT-LICENSE file.
+
+==Misc.
+
+This is my first publicly released plugin. If you have any suggestions, comments,
+or if you find a bug, please drop me a line.
