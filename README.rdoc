@@ -21,8 +21,9 @@ Usage is similar to image styles in Paperclip:
   class Episode < ActiveRecord::Base
     has_attached_file :video,
       :styles => {
-        :mov => {:geometry => '320x240', :format => 'mov'},
-        :avi => {:geometry => '320x240', :format => 'avi'}
+        :mov        => {:size => '320x240', :format => 'mov'},
+        :avi        => {:size => '320x240', :format => 'avi'},
+        :thumbnail  => {:size => '100x75', :time_offset => '2', :format => 'jpg'}
       },
       :processors => [:transcode]
   end
@@ -41,8 +42,8 @@ For example:
 
   has_attached_file :video,
     :styles => {
-      :default_channel => {:format => 'flv', :options => '-tvstd NTSC'},
-      :alternate_channel => {:format => 'flv', :options => '-vc 2 -tvstd NTSC'}
+      :default_channel    => {:format => 'flv', :options => '-tvstd NTSC'},
+      :alternate_channel  => {:format => 'flv', :options => '-vc 2 -tvstd NTSC'}
     },
     :processors => [:transcode]
 
