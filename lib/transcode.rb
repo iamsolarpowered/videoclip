@@ -12,8 +12,9 @@ module Paperclip
 
     def make
       dst = Tempfile.new([@basename, @format].compact.join("."))
+      dst.binmode
       begin
-        success = system cmd(dst)
+        Paperclip.run 'ffmpeg', cmd(dst)
       rescue
         raise PaperclipError, "There was an error transcoding #{@basename} to #{@format}"
       end
@@ -22,12 +23,9 @@ module Paperclip
 
     def cmd outfile
       a = []
-
-      a << "ffmpeg"
       a << "-i \"#{File.expand_path(@file.path)}\""
       a << ffmpeg_options
       a << "\"#{File.expand_path(outfile.path)}\""
-
       a.join(' ')
     end
 
