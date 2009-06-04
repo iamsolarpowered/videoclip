@@ -13,6 +13,8 @@ Sometimes it's downright frustrating. FFMPEG needs to be compiled with any codec
 want to use (many of which aren't open source).
 
 If you're using Ubuntu, this link should help https://wiki.ubuntu.com/ffmpeg .
+On a Mac, using Mac Ports, you should be able to install everything necessary with: 
+sudo port install ffmpeg +lame +libogg +vorbis +faac +faad +xvid +x264 +a52 +gpl
 
 ==Usage
 
