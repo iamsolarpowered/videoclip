@@ -23,7 +23,7 @@ Usage is similar to image styles in Paperclip:
       :styles => {
         :mov        => {:size => '600x400', :format => 'mov'},
         :avi        => {:size => '600x400', :format => 'avi'},
-        :thumbnail  => {:size => '150x100', :format => 'jpg'}
+        :thumbnail  => {:size => '150x100', :format => 'jpg', :disable_audio => true, :rate => 1, :video_frames => 1, :force_format => 'image2'}
       },
       :processors => [:transcode]
   end
