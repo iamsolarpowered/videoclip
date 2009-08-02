@@ -16,7 +16,7 @@ module Paperclip
       begin
         Paperclip.run 'ffmpeg', cmd(dst)
       rescue
-        raise PaperclipError, "There was an error transcoding #{@basename} to #{@format}"
+        raise PaperclipError, "There was an error transcoding #{@basename} to #{@format}" unless Paperclip.options[:suppress_errors]
       end
       dst
     end
