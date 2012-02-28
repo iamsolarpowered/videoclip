@@ -11,7 +11,7 @@ module Paperclip
     end
 
     def make
-      dst = Tempfile.new([@basename, @format].compact.join("."))
+      dst = Tempfile.new([@basename, @format ? ".#{@format}" : ''])
       dst.binmode
       begin
         Paperclip.run 'ffmpeg', cmd(dst)
